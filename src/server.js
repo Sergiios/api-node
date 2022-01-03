@@ -41,12 +41,28 @@ app.put('/cliente/:id', (req, res) => {
     const client = customers.find((c) => c.id === parseInt(req.params.id));
     if(!client)
         return res.status(400).send('Não foi possivel identificar cliente com esse ID')
-
-    client.name = req.body.name;
-    client.age = req.body.age;
-    client.country = req.body.country;
     
+    //verifica o que está atualizando
+    if(req.body.name) 
+        client.name = req.body.name;
+    if(req.body.age)
+        client.age = req.body.age;
+    if(req.body.country)
+        client.country = req.body.country;
+
     res.send(client)
+})
+
+//Método Delete
+app.delete('/cliente/:id', (req, res) => {
+    const client = customers.find((c) => c.id === parseInt(req.params.id));
+    if(!client)
+        return res.status(400).send('Não foi possivel identificar cliente com esse ID')
+    
+    const index = customers.indexOf(client);
+    customers.splice(index,1);
+
+    res.send(client);
 })
 
 const port = process.env.PORT || 3000;
