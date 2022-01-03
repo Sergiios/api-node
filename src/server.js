@@ -36,6 +36,19 @@ app.post('/cliente', (req,res) => {
     res.send(client);
 })
 
+//Método Put
+app.put('/cliente/:id', (req, res) => {
+    const client = customers.find((c) => c.id === parseInt(req.params.id));
+    if(!client)
+        return res.status(400).send('Não foi possivel identificar cliente com esse ID')
+
+    client.name = req.body.name;
+    client.age = req.body.age;
+    client.country = req.body.country;
+    
+    res.send(client)
+})
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`Servidor executando na porta ${port}`));
