@@ -2,6 +2,7 @@ const Joi = require('joi');
 const express = require('express');
 
 const app = express();
+app.use(express.json())
 
 const customers = [
     { id:1, name:"Sergio", age:26, country:"Viçosa"},
@@ -21,15 +22,19 @@ app.get('/cliente/:id', (req, res)=> {
     res.send(client)
 })
 
-//Validação
-function validateClient (client) {
-    const schema = {
-        name: Joi.string().min(3).required(),
-    }
-    return Joi.validate(client, schema);
-}
-
 //Método Post
+app.post('/cliente', (req,res) => {
+
+    const client = {
+        id: customers.length + 1,
+        name: req.body.name,
+        age: +req.body.age,
+        country: req.body.country
+    };
+
+    customers.push(client);
+    res.send(client);
+})
 
 const port = process.env.PORT || 3000;
 
